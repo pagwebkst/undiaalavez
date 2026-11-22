@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><title>Un día a la vez</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1ece1;--card:#fbf8f1;--ink:#1f2a24;--mute:#6b7168;--g:#2f4a3a;--bt:#f1ece1;--olive:#6b7a3a;--sand:#c9b68a;--line:#ddd5c2;--warn:#7a4a2a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1411;--card:#1a211c;--ink:#ece6d6;--mute:#98a092;--g:#a9c4a2;--bt:#13190f;--olive:#9aab5a;--line:#29322b;--warn:#d9a574}}
+:root[data-theme="dark"]{--bg:#0f1411;--card:#1a211c;--ink:#ece6d6;--mute:#98a092;--g:#a9c4a2;--bt:#13190f;--olive:#9aab5a;--line:#29322b;--warn:#d9a574}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif;min-height:100%}
+#app{max-width:520px;margin:0 auto;padding:18px 16px 230px}
+h1,h2,.serif{font-family:Fraunces,Georgia,serif;font-weight:700;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 6px 22px rgba(0,0,0,.07);animation:up .5s both}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.mute{color:var(--mute)}.small{font-size:13px}.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:6px 2px}
+.top b{font-family:Fraunces,Georgia,serif;font-size:19px}
+.hero{background:var(--g);color:var(--bt);border:0}.hero .lbl,.hero .mute{color:var(--bt);opacity:.75}
+.big{font-family:Fraunces,Georgia,serif;font-size:76px;line-height:1;font-weight:700}
+.bar{height:8px;border-radius:8px;background:rgba(127,127,127,.25);overflow:hidden;margin:10px 0 6px}.bar i{display:block;height:100%;background:var(--sand);border-radius:8px;transition:width 1s}
+button,.btn{font:inherit;font-weight:600;border:0;border-radius:14px;padding:13px 18px;background:var(--g);color:var(--bt);cursor:pointer;transition:transform .15s}
+button:active{transform:scale(.97)}button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}button.sm{padding:8px 12px;font-size:14px}
+input,textarea{width:100%;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px;margin:6px 0}
+textarea{min-height:92px;resize:vertical}
+nav{position:fixed;left:12px;right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));max-width:496px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:20px;display:flex;justify-content:center;padding:6px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+nav div{display:flex;max-width:520px;width:100%}nav button{flex:1;background:none;color:var(--mute);padding:10px 2px;font-size:13px;border-radius:12px}nav button.on{color:var(--ink);background:var(--bg)}
+.sos{position:fixed;left:12px;right:12px;bottom:calc(132px + env(safe-area-inset-bottom,0px));max-width:496px;margin:0 auto;background:var(--warn);color:#fff;z-index:6;box-shadow:0 8px 24px rgba(0,0,0,.3);letter-spacing:.03em;font-size:14px}
+.ms{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.ms:last-child{border:0}
+.badge{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-weight:700;border:2px dashed var(--line);color:var(--mute);font-size:17px}
+.badge.on{border:2px solid var(--sand);background:var(--olive);color:#fff;box-shadow:0 0 0 4px rgba(201,182,138,.25)}
+.slip{border-left:3px solid var(--sand);padding:6px 0 6px 12px;margin:10px 0}
+.ov{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:calc(20px + env(safe-area-inset-top,0px)) 18px 40px}.ov>div{max-width:520px;margin:0 auto}
+.cel{position:fixed;inset:0;background:rgba(10,14,11,.82);z-index:30;display:grid;place-items:center;padding:24px;animation:up .3s both}
+.cel>div{background:var(--card);border-radius:26px;padding:28px;text-align:center;max-width:380px;position:relative;overflow:hidden}
+.cf{position:absolute;top:50%;left:50%;width:8px;height:12px;border-radius:2px;animation:pop 1.6s ease-out forwards;opacity:0}
+@keyframes pop{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+.gd{width:100%;max-width:240px;display:block;margin:0 auto}.gd circle,.gd ellipse{transition:all 1s}
+.row{display:flex;gap:10px}.row>*{flex:1}.tag{display:inline-block;background:var(--bg);border-radius:20px;padding:2px 10px;font-size:12px;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),A=$('#app');
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MS=[
+[1,'Un día','El primero siempre es el que más pesa. Ya lo hiciste.'],
+[3,'3 días','Tres días. Lo más duro de arrancar ya quedó atrás.'],
+[7,'7 días','7 DÍAS. Una semana de decisiones que cuentan. No importa lo que pasó antes: hoy estás acá y eso importa. Seguí construyendo.'],
+[14,'14 días','Dos semanas. En tu casa ya se nota otra energía, aunque nadie lo diga en voz alta.'],
+[21,'21 días','Tres semanas. Lo que repetís empieza a ser rutina, y la rutina te sostiene.'],
+[30,'30 días','Un mes entero de estar presente: en la mesa, en los juegos, en las charlas de nada. Eso no se finge.'],
+[60,'60 días','Dos meses. Hay cosas que ya no te cuestan esfuerzo: son parte de cómo vivís.'],
+[90,'90 días','Tres meses. Tu familia vuelve a poder apoyarse en tu palabra, y vos en la tuya.'],
+[180,'180 días','Medio año. Tus hijos crecieron medio año con un papá presente. Eso no se compra.'],
+[365,'1 año','Un año. Todo lo hiciste vos, un día a la vez. Mirá lo que construiste.']];
+const DM=['No necesitás resolver toda tu vida hoy. Solamente dar el próximo paso.','Tener ganas no significa tener que hacerlo.','Un día difícil no borra todo lo que construiste.','Pedir ayuda también es una forma de avanzar.','No estás empezando de cero. Estás empezando desde lo que aprendiste.','Tus hijos no necesitan un padre perfecto. Necesitan uno que vuelva a intentarlo, y eso estás haciendo.','Los chicos se acuerdan de quién estuvo presente. Hoy sumás otro día de eso.','Lo que ya lograste antes no desapareció. Las mismas manos que sacaron adelante todo eso están haciendo esto.','Las ganas suben y bajan como una ola. Esperá veinte minutos antes de decidir nada.','Un día sin consumir es un dato, no un examen.','Si hoy solo podés cuidarte vos y cuidar a los chicos, ya alcanza.','Cada mañana con la cabeza clara es una mañana en la que ellos te ven distinto.','No hace falta sentirte bien para seguir. Alcanza con seguir.','Contale a alguien cómo estás de verdad. Aunque sea una frase.','Si el día se pone pesado, avisá temprano. Avisar es una jugada inteligente, no una derrota.','Lo que hacés hoy es lo que tus hijos van a contar de grandes.','Tu familia no espera un cambio perfecto. Espera que sigas.','Hay días que se ganan con una sola decisión: volver a casa, no contestar ese mensaje, no ir a ese lugar.','Hacé hoy algo chico que te guste y no tenga nada que ver con esto: cocinar, caminar, jugar en el piso con los chicos.','Tu historia no la define lo peor que hiciste, sino lo que hacés con lo que sabés ahora.','Si la calma te resulta rara, es normal. Al principio se siente ajena; después se siente tuya.','Los logros chicos también son logros: llegar a horario, pagar una cuenta, cumplir una promesa.','Estar en el acto del cole, en un cumpleaños, en una charla cualquiera: ahí es donde todo esto se nota.','No compares tu día 12 con el día 400 de otro.','Cuando algo sale mal, preguntate qué aprendiste, no a quién le fallaste.','Los chicos copian lo que ven. Hoy les mostrás cómo se levanta alguien.','Descansar también es parte del proceso.','Alguien en tu vida se alegra de que estés acá. Probablemente más de uno.','Hay cosas que construiste mucho antes de esto: trabajo, amistades, una familia. Siguen siendo tuyas.','Un papá que se esfuerza por estar bien le enseña a sus hijos más que mil consejos.'];
+let db=null,ready=false,S={cfg:null,vic:[],msg:[]},ui={tab:'hoy',calm:0,set:0,all:0,cel:null,pin:0},pend=0;
+const LS='udv_v1',L=k=>{try{return localStorage.getItem(k)}catch(e){return null}},W=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+let role=L('udv_role'),famName=L('udv_fam')||'';
+try{Object.assign(S,JSON.parse(L(LS)||'{}'))}catch(e){}
+const saveLocal=()=>{if(!db)W(LS,JSON.stringify(S))};
+const h=p=>{let x=5381;for(const c of 'udv'+p)x=(x*33^c.charCodeAt(0))>>>0;return String(x)};
+const P=t=>t.replace(/[Tt]us hijos/g,S.cfg&&S.cfg.kids?S.cfg.kids:'tus hijos');
+const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
+const dayOf=s=>Math.floor(Date.parse(s+'T00:00:00Z')/864e5);
+const fd=ts=>new Date(ts).toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+const days=()=>S.cfg?Math.max(0,today()-dayOf(S.cfg.start)):0;
+const SB_URL='https://jfocizcltkxhyivdmhkd.supabase.co',SB_KEY='sb_publishable_p4oWtrrO3XkmuqWjlF6LJg_52HPBmx6';
+function sbShim(){const H={apikey:SB_KEY,'Content-Type':'application/json'};const U=SB_URL+'/rest/v1/udv';if(!SB_KEY.startsWith('sb_'))H.Authorization='Bearer '+SB_KEY;
+const ok=async r=>{if(!r.ok){throw new Error(r.status+' '+(await r.text()))}return r};
+const poll=(c,cb)=>{const f=()=>fetch(U+'?select=*&col=eq.'+c,{headers:H}).then(r=>r.json()).then(r=>{if(Array.isArray(r))cb(r)}).catch(()=>{});f();setInterval(f,10000)};
+const row=r=>({id:r.id,exists:true,data:()=>r.data});
+return{doc:()=>({set:d=>fetch(U,{method:'POST',headers:{...H,Prefer:'resolution=merge-duplicates'},body:JSON.stringify({id:'cfg',col:'cfg',data:d,ts:Date.now()})}).then(ok),onSnapshot:cb=>poll('cfg',r=>cb(r[0]?row(r[0]):{exists:false,data:()=>null}))}),
+collection:c=>({add:o=>fetch(U,{method:'POST',headers:H,body:JSON.stringify({id:crypto.randomUUID(),col:c,data:o,ts:o.ts})}).then(ok),onSnapshot:cb=>poll(c,r=>cb({docs:r.map(row)}))})}}
+async function init(){
+ render();
+ if(SB_URL)db=sbShim();else{try{db=await claude.use('db')}catch(e){db=null}}
+ if(db){
+  const t=setTimeout(()=>{ready=true;render()},6000);
+  const er=()=>{};
+  db.doc('app/cfg').onSnapshot(s=>{clearTimeout(t);S.cfg=s.exists?s.data():null;ready=true;render()},er);
+  db.collection('victorias').onSnapshot(q=>{S.vic=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts);render()},er);
+  db.collection('mensajes').onSnapshot(q=>{S.msg=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts);render()},er);
+ }else{ready=true;render()}
+}
+async function setCfg(c){S.cfg=c;if(db){try{await db.doc('app/cfg').set(c)}catch(e){alert('No se pudo guardar: '+(e&&e.message||e))}}else saveLocal();render()}
+async function addTo(col,key,o){o.ts=Date.now();if(db){try{await db.collection(col).add(o)}catch(e){alert('No se pudo guardar: '+(e&&e.message||e))}}else{S[key].unshift({id:'l'+o.ts,...o});saveLocal();render()}}
+const nav=(t,b)=>`<nav><div>${t.map(x=>`<button class="${b==x[0]?'on':''}" onclick="ui.tab='${x[0]}';render()">${x[1]}</button>`).join('')}</div></nav>`;
+function garden(d){
+ const H=Math.min(120,14+Math.sqrt(d)*6.2),n=Math.min(52,Math.floor(Math.sqrt(d)*2.7)),ty=185-H;
+ let s=`<svg viewBox="0 0 200 200" class="gd" aria-label="Tu crecimiento"><line x1="40" y1="186" x2="160" y2="186" stroke="var(--line)" stroke-width="2"/><line x1="100" y1="186" x2="100" y2="${ty}" stroke="var(--sand)" stroke-width="4" stroke-linecap="round"/>`;
+ for(let i=1;i<=Math.min(6,Math.floor(d/12));i++){const y=185-H*(i/7+.12),dr=i%2?1:-1;s+=`<line x1="100" y1="${y}" x2="${100+dr*(16+i*4)}" y2="${y-15}" stroke="var(--sand)" stroke-width="3" stroke-linecap="round"/>`}
+ s+=`<ellipse cx="91" cy="${ty+2}" rx="9" ry="4.5" transform="rotate(-25 91 ${ty+2})" fill="var(--olive)"/><ellipse cx="109" cy="${ty+2}" rx="9" ry="4.5" transform="rotate(25 109 ${ty+2})" fill="var(--olive)"/>`;
+ for(let i=0;i<n;i++){const a=i*2.4,r=8+(i%11)*3.4,x=100+Math.cos(a)*r*1.5,y=ty+8+Math.sin(a)*r*.9;s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${4+(i%3)}" fill="var(--olive)" opacity="${(.55+(i%4)*.12).toFixed(2)}"/>`}
+ return s+'</svg>'}
+function jar(n){
+ const c=['#c9b68a','#9aab5a','#d9d0b8','#6b7a3a'];let s=`<svg viewBox="0 0 160 180" style="width:150px;display:block;margin:0 auto"><rect x="50" y="6" width="60" height="14" rx="4" fill="var(--sand)"/>`;
+ for(let i=0;i<Math.min(n,16);i++)s+=`<rect x="${46+(i%4)*21+(i*7%6)}" y="${152-Math.floor(i/4)*21}" width="17" height="11" rx="2" fill="${c[i%4]}" transform="rotate(${(i*37)%44-22} ${55+(i%4)*21} ${158-Math.floor(i/4)*21})"/>`;
+ return s+`<path d="M40 30h80q16 10 16 40v82q0 22-22 22H46q-22 0-22-22V70q0-30 16-40z" fill="none" stroke="var(--mute)" stroke-width="3"/></svg>`}
+function cf(){let s='';for(let i=0;i<26;i++){const a=Math.random()*6.28,r=90+Math.random()*120;s+=`<i class="cf" style="--x:${Math.cos(a)*r}px;--y:${Math.sin(a)*r-40}px;--r:${Math.random()*540}deg;background:${['#c9b68a','#9aab5a','#6b7a3a','#d9d0b8'][i%4]};animation-delay:${Math.random()*.2}s"></i>`}return s}
+function setup(){return `<div class="card"><h1 style="font-size:30px">Un día a la vez</h1><p class="mute">Armemos tu espacio. Podés cambiar todo después desde Ajustes.</p>
+<div class="lbl">Tu nombre</div><input id="n" autocomplete="off"><div class="lbl">Nombres de tus hijos (opcional)</div><input id="k" placeholder="Ej: Mateo y Joaquín" autocomplete="off">
+<div class="lbl">Fecha de inicio</div><input id="d" type="date" value="${new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10)}">
+<div class="lbl">Mis motivos para seguir (uno por línea)</div><textarea id="m" placeholder="Ver crecer a mis hijos&#10;Estar presente&#10;..."></textarea>
+<div class="lbl">PIN para proteger los ajustes (4 a 8 números)</div><input id="p" type="password" inputmode="numeric" maxlength="8">
+<button onclick="saveSetup()" style="width:100%;margin-top:10px">Empezar</button></div>`}
+function saveSetup(){const p=$('#p').value.trim(),n=$('#n').value.trim();if(!n||!$('#d').value||!/^\d{4,8}$/.test(p)){alert('Completá tu nombre, la fecha y un PIN de 4 a 8 números.');return}
+ setCfg({name:n,kids:$('#k').value.trim(),start:$('#d').value,pin:h(p),motives:$('#m').value.split('\n').map(x=>x.trim()).filter(Boolean)})}
+function hoy(){
+ const d=days(),un=MS.filter(m=>m[0]<=d),nx=MS.find(m=>m[0]>d),pv=un.length?un[un.length-1][0]:0,pct=nx?Math.round((d-pv)/(nx[0]-pv)*100):100;
+ const ex=MS.find(m=>m[0]==d),wk=d>0&&d%7==0&&!ex?`Semana ${d/7} completa. Siete días más de decisiones que cuentan.`:null;
+ const hr=new Date().getHours(),g=hr<6?'Buenas noches':hr<13?'Buen día':hr<20?'Buenas tardes':'Buenas noches';
+ const dm=DM[(today()+7)%DM.length];
+ return `<div class="top"><b>Un día a la vez</b><button class="ghost sm" onclick="ui.set=1;render()">Ajustes</button></div>
+<p class="mute" style="margin:8px 2px 0">${g}, ${esc(S.cfg.name)}.</p>
+<div class="card hero"><div class="lbl">${role=='fam'?'Su progreso':'Mi progreso'}</div><div class="big">${d}</div><div style="font-size:18px;margin-top:2px">${d==1?'día':'días'} sin consumir</div>
+<div class="small mute" style="margin-top:4px">Desde el ${fd(dayOf(S.cfg.start)*864e5+432e5)}</div>
+<div class="bar"><i style="width:${pct}%"></i></div><div class="small mute">${nx?`Próximo hito: ${nx[1]} · faltan ${nx[0]-d}`:'Un año completo. Lo lograste.'}</div></div>
+${ex||wk?`<div class="card" style="border-color:var(--sand)"><div class="lbl">Hoy se celebra</div><div class="serif" style="font-size:20px">${esc(P(ex?ex[2]:wk))}</div></div>`:''}
+<div class="card"><div class="lbl">Mensaje del día</div><div class="serif" style="font-size:21px;line-height:1.35">${esc(P(dm))}</div></div>
+<div class="card"><div class="lbl">${role=='fam'?'Su crecimiento':'Mi crecimiento'}</div>${garden(d)}<p class="small mute" style="text-align:center;margin:6px 0 0">Crece con cada día, no se lo puede apurar.</p></div>`}
+function reco(){const d=days();return `<div class="top"><b>Mi recorrido</b></div><p class="mute small" style="margin:4px 2px">Los hitos no son una carrera. Son momentos para reconocer el esfuerzo.</p><div class="card">${MS.map(m=>{const on=d>=m[0];return `<div class="ms"><div class="badge ${on?'on':''}">${m[0]>=365?'1a':m[0]}</div><div><b>${m[1]}</b><div class="small mute">${on?esc(P(m[2])):'Faltan '+(m[0]-d)+' días'}</div></div></div>`}).join('')}</div>`}
+function frasco(){const v=S.vic,sh=ui.all?v:v.slice(0,4);return `<div class="top"><b>El frasco de victorias</b></div>
+<div class="card">${jar(v.length)}<p class="mute small" style="text-align:center">${v.length} papelito${v.length==1?'':'s'} adentro</p>
+<textarea id="v" placeholder="Algo que lograste, que superaste o de lo que te sentís orgulloso. Por chico que parezca."></textarea><button onclick="addV()" style="width:100%">Guardar en el frasco</button></div>
+<div class="card"><div class="lbl">Lo que ya lograste</div>${v.length?sh.map(x=>`<div class="slip"><div>${esc(x.text)}</div><div class="small mute">${fd(x.ts)}</div></div>`).join(''):'<p class="mute">Todavía está vacío. El primer papelito es el más importante.</p>'}
+${v.length>4?`<button class="ghost sm" onclick="ui.all=!ui.all;render()">${ui.all?'Ver menos':'Abrir el frasco completo'}</button>`:''}</div>`}
+function addV(){const t=$('#v').value.trim();if(t){addTo('victorias','vic',{text:t});}}
+function apoyo(){const m=S.msg;return `<div class="top"><b>Red de apoyo</b></div>
+${role=='fam'?`<div class="card"><div class="lbl">Dejale un mensaje</div><input id="fn" placeholder="Tu nombre" value="${esc(famName)}"><textarea id="ft" placeholder="Un mensaje, una felicitación, un recordatorio..."></textarea><button onclick="addM()" style="width:100%">Enviar mensaje</button></div>`:`<p class="mute small" style="margin:4px 2px">Acá aparecen los mensajes de tu familia. Pasales el link y que elijan Para familiar.</p>`}
+<div class="card"><div class="lbl">Mensajes</div>${m.length?m.map(x=>`<div class="slip"><div>${esc(x.text)}</div><div class="small mute">${esc(x.from)} · ${fd(x.ts)}</div></div>`).join(''):'<p class="mute">Todavía no hay mensajes.</p>'}</div>`}
+function addM(){const f=$('#fn').value.trim(),t=$('#ft').value.trim();if(!f||!t){alert('Poné tu nombre y el mensaje.');return}famName=f;W('udv_fam',f);addTo('mensajes','msg',{from:f,text:t})}
+function calm(){const c=S.cfg,k=c.kids?esc(c.kids):'tus hijos';return `<div class="ov"><div>
+<h1 style="font-size:28px;margin-top:8px">Está bien. Pasemos este rato juntos.</h1>
+<p>Un día difícil no es un paso atrás ni una prueba de que algo falló. Lo que sentís es real y no te hace menos. Las ganas suben, llegan a un pico y bajan.</p>
+<div class="card"><div class="lbl">Ahora mismo</div>Tomá agua, salí un minuto a que te dé el aire y no tomes ninguna decisión por veinte minutos.</div>
+<div class="card" style="border-color:var(--sand)"><div class="lbl">Escribile o llamá a alguien ahora</div>No hace falta explicar todo. Alcanza con decir: hoy me está costando. Pedir ayuda es parte del camino.</div>
+${c.motives.length||c.kids?`<div class="card"><div class="lbl">Mis motivos</div>${c.kids?`<div class="slip">Estar para ${k}.</div>`:''}${c.motives.map(x=>`<div class="slip">${esc(x)}</div>`).join('')}</div>`:''}
+${S.vic.length?`<div class="card"><div class="lbl">Lo que ya lograste</div>${S.vic.slice(0,3).map(x=>`<div class="slip">${esc(x.text)}<div class="small mute">${fd(x.ts)}</div></div>`).join('')}</div>`:''}
+${S.msg.length?`<div class="card"><div class="lbl">Tu familia te dejó</div>${S.msg.slice(0,3).map(x=>`<div class="slip">${esc(x.text)}<div class="small mute">${esc(x.from)}</div></div>`).join('')}</div>`:''}
+<p class="small mute">Esta app acompaña, no reemplaza a tu equipo profesional. Si sentís que no podés sostenerlo solo: Sedronar, línea 141 (gratuita, todo el país). Si hay peligro inmediato: 107 (SAME) o 135 (Centro de Asistencia al Suicida, CABA y GBA).</p>
+<button onclick="ui.calm=0;render()" style="width:100%">Volver</button></div></div>`}
+function settings(){const c=S.cfg;if(role=='fam')return `<div class="ov"><div><div class="top"><b>Ajustes</b></div><div class="card"><p>Estás viendo la app como familiar.</p><button class="ghost" onclick="switchRole()">Cambiar de perfil</button></div><button onclick="ui.set=0;render()" style="width:100%">Volver</button></div></div>`;
+ if(!ui.pin&&c.pin)return `<div class="ov"><div><div class="top"><b>Ajustes</b></div><div class="card"><div class="lbl">PIN</div><input id="pc" type="password" inputmode="numeric" maxlength="8"><button onclick="chkPin()" style="width:100%">Entrar</button></div><button class="ghost" onclick="ui.set=0;render()" style="width:100%">Volver</button></div></div>`;
+ return `<div class="ov"><div><div class="top"><b>Ajustes</b></div><div class="card"><div class="lbl">Nombre</div><input id="sn" value="${esc(c.name)}"><div class="lbl">Hijos</div><input id="sk" value="${esc(c.kids)}"><div class="lbl">Fecha de inicio</div><input id="sd" type="date" value="${c.start}"><div class="lbl">Motivos (uno por línea)</div><textarea id="sm">${esc(c.motives.join('\n'))}</textarea><div class="lbl">PIN opcional para proteger estos ajustes (4 a 8 números; vacío para dejarlo como está)</div><input id="sp" type="password" inputmode="numeric" maxlength="8"><button onclick="saveSet()" style="width:100%;margin-top:8px">Guardar</button></div><button class="ghost" onclick="ui.set=0;ui.pin=0;render()" style="width:100%">Cerrar</button></div></div>`}
+function chkPin(){if(h($('#pc').value)==S.cfg.pin){ui.pin=1;render()}else alert('PIN incorrecto')}
+function saveSet(){const p=$('#sp').value.trim();if(p&&!/^\d{4,8}$/.test(p)){alert('El PIN debe tener 4 a 8 números.');return}
+ ui.set=0;ui.pin=0;setCfg({name:$('#sn').value.trim()||S.cfg.name,kids:$('#sk').value.trim(),start:$('#sd').value||S.cfg.start,pin:p?h(p):S.cfg.pin,motives:$('#sm').value.split('\n').map(x=>x.trim()).filter(Boolean)})}
+function switchRole(){role=null;W('udv_role','');ui.set=0;ui.pin=0;render()}
+function pick(r){role=r;W('udv_role',r);if(r=='main'&&!S.cfg)setCfg({name:'Lautaro',kids:'Noah y Gemma',start:'2026-11-15',pin:'',motives:['Verlos crecer y estar ahí para cada momento','Todo lo que ya construí y quiero seguir construyendo','Sentirme bien conmigo']});else render()}
+function celeb(){if(role!='main'||!S.cfg||ui.cel)return;const d=days(),seen=+(L('udv_seen')||-1),nw=MS.filter(m=>m[0]<=d&&m[0]>seen);
+ if(seen<0&&!L('udv_seen')){W('udv_seen',String(MS.filter(m=>m[0]<=d).pop()?.[0]||0));return}
+ if(nw.length){ui.cel=nw[nw.length-1];W('udv_seen',String(ui.cel[0]))}}
+function render(){
+ const a=document.activeElement;if(a&&/TEXTAREA|INPUT/.test(a.tagName)&&a.value){pend=1;return}pend=0;
+ if(!ready){A.innerHTML='<p class="mute" style="text-align:center;margin-top:30vh">Cargando…</p>';return}
+ if(!role){A.innerHTML=`<div class="card"><h1 style="font-size:30px">Un día a la vez</h1><p class="mute">No se trata de contar cuánto falta. Se trata de reconocer cuánto se está construyendo.</p><button onclick="pick('main')" style="width:100%;margin:6px 0">Empezar</button><button class="ghost" onclick="pick('fam')" style="width:100%">Para familiar</button></div>`;return}
+ if(!S.cfg){A.innerHTML=role=='main'?'<p class="mute" style="text-align:center;margin-top:30vh">Preparando tu espacio…</p>':'<div class="top"><b>Para Lautaro</b></div>'+apoyo()+'<button class="ghost" onclick="switchRole()">Volver</button>';return}
+ celeb();
+ const tabs=role=='main'?[['hoy','Hoy'],['reco','Recorrido'],['frasco','Frasco'],['apoyo','Apoyo']]:[['hoy','Progreso'],['reco','Recorrido'],['apoyo','Mensajes']];
+ if(!tabs.some(t=>t[0]==ui.tab))ui.tab='hoy';
+ let v={hoy,reco,frasco,apoyo}[ui.tab]();
+ A.innerHTML=v+nav(tabs,ui.tab)+(role=='main'?'<button class="sos" onclick="ui.calm=1;render();scrollTo(0,0)">HOY NO ESTOY TENIENDO UN BUEN DÍA</button>':'')
+  +(ui.calm&&role=='main'?calm():'')+(ui.set?settings():'')
+  +(ui.cel?`<div class="cel" onclick="ui.cel=null;render()"><div>${cf()}<div class="badge on" style="margin:0 auto 14px;width:78px;height:78px;font-size:26px">${ui.cel[0]>=365?'1a':ui.cel[0]}</div><h2 style="font-size:26px">${ui.cel[1]}</h2><p>${esc(P(ui.cel[2]))}</p><button>Seguir</button></div></div>`:'');
+}
+document.addEventListener('focusout',()=>setTimeout(()=>{if(pend)render()},150));
+init();
+</script></body></html>
